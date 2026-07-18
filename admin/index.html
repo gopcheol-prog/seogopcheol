@@ -123,7 +123,6 @@
       <div class="form-field"><label class="input-label">응원 팀</label><input class="input" id="f-info-team" type="text" placeholder="한화이글스"></div>
       <div class="form-field"><label class="input-label">애창곡</label><input class="input" id="f-info-song" type="text" placeholder="폰서트"></div>
       <div class="form-field"><label class="input-label">컨텐츠</label><input class="input" id="f-info-content" type="text" placeholder="게임 · 소통"></div>
-      <div class="form-field"><label class="input-label">지금 진행 중 (NOW · 줄바꿈=엔터)</label><textarea class="input" id="f-now" rows="3" placeholder="6월 생일 기념 굿즈 통판 🎂"></textarea></div>
       <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
     </div>
 
@@ -188,16 +187,6 @@
         <label class="input-label">능력치 목록</label>
         <textarea class="input" id="f-stats" rows="6" placeholder="텐션:95&#10;탱커력:90&#10;허당력:85&#10;곱창 사랑:100&#10;쎈 언니 지수:40"></textarea>
         <div class="hint"><b>규격</b> — 한 줄에 하나씩 <code>이름:숫자</code> 형식. 숫자는 0~100. 예) <code>텐션:95</code><br>비워두면 기본값(5개)이 그대로 표시돼요.</div>
-      </div>
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">🎯 목표 (마일스톤)</div>
-      <div class="form-field">
-        <label class="input-label">목표 목록</label>
-        <textarea class="input" id="f-milestones" rows="6" placeholder="달성|단골 100명 모으기&#10;달성|첫 노래 방송 하기&#10;진행 중|단골 500명 모으기&#10;준비 중|곱창집 오프 팬미팅"></textarea>
-        <div class="hint"><b>규격</b> — 한 줄에 하나씩 <code>상태|내용</code> 형식. 상태를 <code>달성</code>으로 쓰면 취소선이 그어져요.<br>그 외 아무 글자(진행 중, 준비 중 …)는 그대로 표시됩니다.</div>
       </div>
       <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
     </div>
@@ -467,7 +456,7 @@
     'avatar','soop-id',
     'info-name','info-catchphrase','info-debut','info-birth','info-fandom','info-agency',
     'info-position','info-mbti','info-game','info-team','info-song','info-content','info-tags',
-    'quote','msg','now','like-list','dislike-list','stats','milestones',
+    'quote','msg','like-list','dislike-list','stats',
     'tmi-food','tmi-song','tmi-book','days','week',
     'link-soop','link-youtube','link-x','link-cafe',
     'theme-main','theme-main-dark','theme-main-deep','theme-main-light','theme-bg','theme-logo'

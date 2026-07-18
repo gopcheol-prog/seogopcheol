@@ -253,26 +253,6 @@ body.dark .now{background:linear-gradient(135deg,#3E2E33,#2E2428)}
     </div>
   </section>
 
-  <!-- NOW / 목표 -->
-  <section class="g c2">
-    <div class="card">
-      <div class="ct">🔥 지금 진행 중<span class="ln"></span></div>
-      <div class="now" data-hook="now">
-        <div class="jua" style="font-size:16px;color:var(--main-deep);margin-bottom:5px">6월 생일 기념 굿즈 통판 🎂</div>
-        <div style="font-size:13px;font-weight:700;line-height:1.8">단골 여러분만을 위한 한정 굿즈!<br>자세한 내용은 공지에서 확인해 주세요.</div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="ct">🎯 목표 (마일스톤)<span class="ln"></span></div>
-      <div id="mile-box">
-      <div class="mile done"><span class="dot"></span>단골 100명 모으기<span class="d2">달성!</span></div>
-      <div class="mile done"><span class="dot"></span>첫 노래 방송 하기<span class="d2">달성!</span></div>
-      <div class="mile"><span class="dot"></span>단골 500명 모으기<span class="d2">진행 중</span></div>
-      <div class="mile"><span class="dot"></span>곱창집 오프 팬미팅<span class="d2">준비 중</span></div>
-      </div>
-    </div>
-  </section>
-
   <!-- 다시보기 -->
   <section class="card" id="songs-card">
     <div class="ct">📺 다시보기 (VOD)<span class="ln"></span><small>SOOP VOD</small></div>
@@ -404,33 +384,6 @@ body.dark .now{background:linear-gradient(135deg,#3E2E33,#2E2428)}
           const last = (i===rows.length-1) ? ' style="margin:0"' : '';
           return '<div class="stat"'+last+'><div class="top"><span>'+r[0]+'</span><i>'+v+'</i></div>'+
                  '<div class="bar"><span class="fill" style="width:'+v+'%"></span></div></div>';
-        }).join('');
-      }
-    }
-
-    // 마일스톤 — 문자열("상태|내용" 줄바꿈) / 배열 둘 다 허용
-    const mb = document.getElementById('mile-box');
-    if(mb && p['milestones']){
-      const raw = p['milestones'];
-      let rows = [];
-      if(Array.isArray(raw)){
-        rows = raw.map(function(it){
-          if(it && typeof it === 'object') return [String(it.status || it.state || ''), String(it.text || it.name || '')];
-          const m = String(it).split('|');
-          return [(m[0]||'').trim(), (m[1]||'').trim()];
-        });
-      } else if(typeof raw === 'string'){
-        rows = raw.split('\n').filter(Boolean).map(function(line){
-          const m = line.split('|');
-          return [(m[0]||'').trim(), (m[1]||'').trim()];
-        });
-      }
-      rows = rows.filter(function(r){ return r[1]; });
-      if(rows.length){
-        mb.innerHTML = rows.map(function(r){
-          const done = (r[0] === '달성' || r[0] === '달성!');
-          return '<div class="mile'+(done?' done':'')+'"><span class="dot"></span>'+r[1]+
-                 '<span class="d2">'+(done?'달성!':r[0])+'</span></div>';
         }).join('');
       }
     }
