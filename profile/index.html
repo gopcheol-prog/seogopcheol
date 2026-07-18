@@ -137,6 +137,10 @@ body.dark .now{background:linear-gradient(135deg,#3E2E33,#2E2428)}
 }
 @media(max-width:560px){
   .phero h1{font-size:32px}
+  /* 히어로 배지: 크기 줄여 두 줄 안에 정리 */
+  .hbadges{gap:5px;margin-top:10px}
+  .hbadges span{font-size:11px;padding:5px 10px;white-space:nowrap}
+  .rib{font-size:13px;padding:6px 14px}
   .day .dh{font-size:10.5px}
   .day .db{font-size:10px;min-height:50px}
   .lks{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -147,6 +151,8 @@ body.dark .now{background:linear-gradient(135deg,#3E2E33,#2E2428)}
 }
 @media(max-width:400px){
   .phero h1{font-size:27px}
+  .hbadges{gap:4px}
+  .hbadges span{font-size:10px;padding:4px 8px}
   .day .dh{font-size:9.5px}
   .day .db{font-size:9.5px;min-height:46px}
 }
