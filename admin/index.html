@@ -143,23 +143,31 @@
     </div>
 
     <div class="card">
-      <div class="card-title">📅 방송 요일</div>
-      <div class="hint" style="margin-bottom:10px">체크한 요일만 <b>방송</b>으로 표시되고, 체크 안 한 요일은 자동으로 <b>휴방</b>이 돼요.</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px" id="day-checks">
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="0">월</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="1">화</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="2">수</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="3">목</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="4">금</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="5">토</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="6">일</label>
+      <style>
+        .wkrow{display:grid;grid-template-columns:34px 96px minmax(0,1fr) 118px;gap:8px;align-items:center;margin-bottom:9px}
+        .wkrow .input{width:100%;box-sizing:border-box;padding:9px 10px;font-size:13px}
+        .wkrow .wkd{font-weight:800;font-size:14px;text-align:center;color:var(--main-dark)}
+        .wkrow.off .wk-title,.wkrow.off .wk-time{opacity:.45}
+        @media(max-width:640px){
+          .wkrow{grid-template-columns:34px minmax(0,1fr);row-gap:6px;padding-bottom:10px;border-bottom:1px dashed var(--main-light)}
+          .wkrow .wk-title,.wkrow .wk-time{grid-column:2}
+        }
+      </style>
+      <div class="card-title">📅 이번 주 일정</div>
+      <div class="hint" style="margin-bottom:12px">
+        <b>곱페이지(메인)</b>와 <b>소개</b> 페이지의 “이번 주 일정” 7칸에 그대로 표시돼요.<br>
+        <b>· 유형</b> — <b>휴방</b>이면 회색 “휴방” 칸이 되고, <b>방송 / 합방</b>이면 아래 제목·시간이 표시돼요.<br>
+        <b>· 제목</b> — 짧게 (예: <code>게임 방송</code>, <code>합방</code>, <code>노래 방송</code>). 비우면 유형 이름이 그대로 나와요.<br>
+        <b>· 시간</b> — <code>20:00~</code> 형식 권장. 비우면 제목만 표시돼요.
       </div>
+      <div id="week-box"></div>
+      <input type="hidden" id="f-week">
       <input type="hidden" id="f-days">
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveDays()">저장 ♥</button></div>
+      <div style="display:flex;justify-content:flex-end;margin-top:4px"><button class="btn btn-primary" onclick="saveWeek()">저장 ♥</button></div>
     </div>
     <div class="card">
       <div class="card-title">🔗 관련 링크</div>
-      <div class="form-field"><label class="input-label">SOOP 방송국</label><div class="hint">체크한 요일만 방송으로 표시되고, 나머지는 자동으로 <b>휴방</b>이 돼요.</div><input class="input" id="f-link-soop" type="url" placeholder="https://"></div>
+      <div class="form-field"><label class="input-label">SOOP 방송국</label><input class="input" id="f-link-soop" type="url" placeholder="https://"></div>
       <div class="form-field"><label class="input-label">유튜브</label><input class="input" id="f-link-youtube" type="url" placeholder="https://"></div>
       <div class="form-field"><label class="input-label">쌍룡파 카페</label><input class="input" id="f-link-cafe" type="url" placeholder="https://"></div>
       <div class="form-field"><label class="input-label">X (트위터)</label><input class="input" id="f-link-x" type="url" placeholder="https://"></div>
@@ -202,7 +210,8 @@
       <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
     </div>
     <div class="card">
-      <div class="card-title">🎵 서곱철 오리지널 곡</div>
+      <div class="card-title">📺 다시보기 (VOD) 등록</div>
+      <div class="hint" style="margin-bottom:12px">여기서 추가한 영상이 <b>소개 페이지 “📺 다시보기(VOD)”</b> 칸에 바로 표시돼요. (최신순)</div>
       <div class="form-grid">
         <div class="form-field full"><label class="input-label">영상 제목 *</label><input class="input" id="os-title" placeholder="예: 노래 제목"></div>
         <div class="form-field full"><label class="input-label">SOOP VOD ID *</label><input class="input" id="os-vod" placeholder="194780409"></div>
@@ -259,7 +268,7 @@
       <div class="form-grid">
         <div class="form-field"><label class="input-label">날짜 *</label><input class="input" id="sch-date" type="date"></div>
         <div class="form-field"><label class="input-label">유형</label>
-          <select class="input" id="sch-type"><option value="방송">방송</option><option value="휴방">휴방</option></select>
+          <select class="input" id="sch-type"><option value="방송">방송</option><option value="합방">합방</option><option value="휴방">휴방</option></select>
         </div>
         <div class="form-field full">
           <label class="input-label">색상</label>
@@ -459,7 +468,7 @@
     'info-name','info-catchphrase','info-debut','info-birth','info-fandom','info-agency',
     'info-position','info-mbti','info-game','info-team','info-song','info-content','info-tags',
     'quote','msg','now','like-list','dislike-list','stats','milestones',
-    'tmi-food','tmi-song','tmi-book','days',
+    'tmi-food','tmi-song','tmi-book','days','week',
     'link-soop','link-youtube','link-x','link-cafe',
     'theme-main','theme-main-dark','theme-main-deep','theme-main-light','theme-bg','theme-logo'
   ];
@@ -490,9 +499,8 @@
       if (rows && rows.length > 0 && rows[0].data) saved = rows[0].data;
     } catch(e) {}
     profileKeys.forEach(k => { const el = document.getElementById('f-' + k); if (el) el.value = saved[k] || ''; });
-    // 방송 요일 체크박스
-    const days = (saved.days || '').split(',').map(x=>x.trim());
-    document.querySelectorAll('.day-chk').forEach(c => { c.checked = days.includes(c.value); });
+    // 이번 주 일정 편집기
+    renderWeekEditor(parseWeek(saved));
     previewAvatar();
   }
   function soopAvatarUrl(id) {
@@ -509,9 +517,67 @@
     if (url) { img.src = url; img.style.display = 'block'; if (ph) ph.style.display = 'none'; }
     else { img.style.display = 'none'; if (ph) ph.style.display = 'flex'; }
   }
-  async function saveDays() {
-    const days = [...document.querySelectorAll('.day-chk:checked')].map(c=>c.value).join(',');
-    document.getElementById('f-days').value = days;
+  // ── 이번 주 일정 ──
+  const WEEK_LABEL = ['월','화','수','목','금','토','일'];
+  const WEEK_TYPES = ['방송','합방','휴방'];
+  function wkEsc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  /** 저장값 → [{t,n,h}] × 7 (week 없으면 옛 days CSV로 폴백) */
+  function parseWeek(saved) {
+    let w = saved.week;
+    if (typeof w === 'string' && w.trim()) { try { w = JSON.parse(w); } catch(e) { w = null; } }
+    if (!Array.isArray(w)) {
+      const on = String(saved.days || '').split(',').map(x=>x.trim());
+      w = WEEK_LABEL.map((_, i) => ({ t: on.includes(String(i)) ? '방송' : '휴방', n:'', h:'' }));
+    }
+    const out = [];
+    for (let i = 0; i < 7; i++) {
+      const it = w[i] || {};
+      out.push({
+        t: WEEK_TYPES.includes(it.t) ? it.t : '휴방',
+        n: String(it.n || ''),
+        h: String(it.h || '')
+      });
+    }
+    return out;
+  }
+
+  function renderWeekEditor(week) {
+    const box = document.getElementById('week-box');
+    if (!box) return;
+    box.innerHTML = WEEK_LABEL.map(function(d, i) {
+      const w = week[i];
+      const opts = WEEK_TYPES.map(function(o){
+        return '<option' + (o === w.t ? ' selected' : '') + '>' + o + '</option>';
+      }).join('');
+      return '<div class="wkrow' + (w.t === '휴방' ? ' off' : '') + '">' +
+        '<div class="wkd">' + d + '</div>' +
+        '<select class="input wk-type" onchange="syncWeekRow(this)">' + opts + '</select>' +
+        '<input class="input wk-title" placeholder="예: 게임 방송" value="' + wkEsc(w.n) + '">' +
+        '<input class="input wk-time" placeholder="예: 20:00~" value="' + wkEsc(w.h) + '">' +
+      '</div>';
+    }).join('');
+  }
+
+  function syncWeekRow(sel) {
+    const row = sel.closest('.wkrow');
+    if (row) row.classList.toggle('off', sel.value === '휴방');
+  }
+
+  async function saveWeek() {
+    const rows = [...document.querySelectorAll('#week-box .wkrow')];
+    const week = rows.map(function(r){
+      return {
+        t: r.querySelector('.wk-type').value,
+        n: r.querySelector('.wk-title').value.trim(),
+        h: r.querySelector('.wk-time').value.trim()
+      };
+    });
+    document.getElementById('f-week').value = JSON.stringify(week);
+    // 옛 days CSV도 함께 갱신 (휴방이 아닌 요일 = 방송)
+    document.getElementById('f-days').value =
+      week.map(function(w,i){ return w.t === '휴방' ? null : String(i); })
+          .filter(function(x){ return x !== null; }).join(',');
     await saveLocalProfile();
   }
   async function saveLocalProfile() {
@@ -771,6 +837,7 @@
   async function loadDiary() {
     const data = await fetchAll('diary', { order: 'diary_date', asc: false });
     const t = document.getElementById('diary-list');
+    if (!t) return;
     if (!data.length) { t.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#ccc;padding:20px">없음</td></tr>'; return; }
     t.innerHTML = data.map(d => `<tr><td>${d.diary_date||'-'}</td><td>${d.mood}</td><td>${d.title}</td><td></td></tr>`).join('');
   }
@@ -800,6 +867,7 @@
     const q = (document.getElementById('song-search')?.value || '').trim().toLowerCase();
     const list = songData.filter(s => !q || (s.title||'').toLowerCase().includes(q) || (s.artist||'').toLowerCase().includes(q));
     const t = document.getElementById('song-list');
+    if (!t) return;
     if (!songData.length) { t.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#ccc;padding:20px">없음</td></tr>'; return; }
     t.innerHTML = list.map(s => {
       const d = parseInt(s.difficulty)||0; let stars=''; for(let k=1;k<=d;k++) stars+='⭐';

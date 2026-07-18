@@ -327,7 +327,28 @@ body.dark .now{background:linear-gradient(135deg,#3E2E33,#2E2428)}
       const el=document.getElementById(pr[0]); if(el && p[pr[1]]) el.href=p[pr[1]];
     });
 
-    if(p['days']){
+    // 이번 주 일정 (week: [{t,n,h}] · 없으면 days CSV 폴백)
+    var wk = p['week'];
+    if(typeof wk === 'string' && wk.trim()){ try{ wk = JSON.parse(wk); }catch(e){ wk = null; } }
+    if(Array.isArray(wk) && wk.length){
+      var wEsc = function(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+      for(let i=0;i<7;i++){
+        const el = document.getElementById('day-'+i);
+        if(!el) continue;
+        const cell = el.closest('.day');
+        const w = wk[i] || {};
+        const t = (w.t === '합방' || w.t === '방송') ? w.t : '휴방';
+        if(t === '휴방'){
+          if(cell) cell.classList.add('off');
+          el.innerHTML = '휴방';
+        }else{
+          if(cell) cell.classList.remove('off');
+          const nm = String(w.n || '').trim() || t;
+          const hh = String(w.h || '').trim();
+          el.innerHTML = wEsc(nm) + (hh ? '<small>' + wEsc(hh) + '</small>' : '');
+        }
+      }
+    }else if(p['days']){
       const on = String(p['days']).split(',').map(function(x){return x.trim()});
       for(let i=0;i<7;i++){
         const el=document.getElementById('day-'+i); if(!el) continue;

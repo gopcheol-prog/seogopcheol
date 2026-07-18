@@ -134,6 +134,31 @@ function enableIframeAutoHeight() { initIframeResize(); }
 
 
 /* =============================================
+   📺 다시보기(VOD) 렌더러 — 프로필 페이지 #ovod-grid
+   admin > 🎀 소개 탭 > 다시보기(VOD) 등록에서 넣은 VOD를 표시
+   (admin 페이지에는 같은 이름의 자체 함수가 뒤에서 덮어씀 = 충돌 없음)
+   ============================================= */
+async function loadOriginalSongs() {
+  const box = document.getElementById('ovod-grid');
+  if (!box) return;
+  let rows = [];
+  try { rows = await fetchAll('original_songs', { order: 'id', asc: false }); } catch (e) { return; }
+  if (!rows || !rows.length) return;   // 등록 전에는 기본 자리표시 유지
+  const esc = s => String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const html = rows.map(s => {
+    const vid = String(s.vod_id || '').trim();
+    if (!vid) return '';
+    return '<div class="vod-item">' +
+      '<iframe src="https://vod.sooplive.co.kr/player/' + encodeURIComponent(vid) + '/embed" ' +
+      'frameborder="0" scrolling="no" allowfullscreen></iframe>' +
+      '<div class="vt">' + esc(s.title || '다시보기') + '</div>' +
+    '</div>';
+  }).join('');
+  if (html) box.innerHTML = html;
+}
+
+/* =============================================
    🎨 색상 팔레트 자동 적용 (전 페이지 공통)
    admin > 🎨 테마 탭에서 저장한 색을 모든 페이지에 반영
    ============================================= */

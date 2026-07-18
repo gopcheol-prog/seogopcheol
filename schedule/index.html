@@ -156,8 +156,10 @@
   let currentYear, currentMonth, allSchedule = [];
   const DAYS = ['일','월','화','수','목','금','토'];
   function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  function kind(t){ return t === '휴방' ? 'off' : 'on'; }
-  function colorClass(s){ return 'c-' + (s.color || (kind(s.type)==='off'?'pink':'green')); }
+  function kind(t){ return t === '휴방' ? 'off' : (t === '합방' ? 'col' : 'on'); }
+  function typeLabel(t){ const k = kind(t); return k==='off' ? '휴방' : (k==='col' ? '합방' : '방송'); }
+  function defColor(t){ const k = kind(t); return k==='off' ? 'pink' : (k==='col' ? 'purple' : 'green'); }
+  function colorClass(s){ return 'c-' + (s.color || defColor(s.type)); }
 
   async function init() {
     const now = new Date(); currentYear = now.getFullYear(); currentMonth = now.getMonth();
@@ -187,7 +189,7 @@
       const events = allSchedule.filter(s => s.date === dateStr);
       const hl = events.some(e=>e.highlight);
       let evHtml = events.map(e => {
-        const label = (e.time ? e.time+' ' : '') + (e.title || (kind(e.type)==='off'?'휴방':'방송'));
+        const label = (e.time ? e.time+' ' : '') + (e.title || typeLabel(e.type));
         return `<div class="ev ${colorClass(e)}" title="${esc(label)}">${esc(label)}</div>`;
       }).join('');
       const cls = `cal-cell${isToday?' today':''}${events.length?' has':''}${hl?' hl':''}`;
@@ -205,8 +207,8 @@
     const el = document.getElementById('upcoming');
     if (!upcoming.length) { el.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>다가오는 일정이 없어요</div>'; return; }
     el.innerHTML = upcoming.map(s => {
-      const dd = new Date(s.date + 'T00:00:00'); const k = kind(s.type);
-      const label = k==='off' ? '휴방' : '방송';
+      const dd = new Date(s.date + 'T00:00:00');
+      const label = typeLabel(s.type);
       const times = [s.time, s.time2].filter(Boolean).join(' · ');
       return `<div class="up-item ${colorClass(s)}" style="border-left-color:currentColor" onclick="openModal('${s.date}')">
         <div class="up-date"><div class="up-d1">${String(dd.getMonth()+1).padStart(2,'0')}-${String(dd.getDate()).padStart(2,'0')} (${DAYS[dd.getDay()]})</div></div>
@@ -222,9 +224,9 @@
     let html = `<div class="m-date">${dateStr} (${DAYS[dd.getDay()]})</div>`;
     events.forEach(s => {
       const k = kind(s.type);
-      html += `<div class="m-badge ${colorClass(s)}">${k==='off'?'휴방':'방송'}</div>`;
+      html += `<div class="m-badge ${colorClass(s)}">${typeLabel(s.type)}</div>`;
       // 1부
-      html += `<div class="m-part"><div class="pt">${s.time?esc(s.time):'1부'}</div><div class="pn">${esc(s.title || (k==='off'?'휴방':'방송'))}</div></div>`;
+      html += `<div class="m-part"><div class="pt">${s.time?esc(s.time):'1부'}</div><div class="pn">${esc(s.title || typeLabel(s.type))}</div></div>`;
       // 2부
       if (s.title2 || s.time2) {
         html += `<div class="m-part"><div class="pt">${s.time2?esc(s.time2):'2부'}</div><div class="pn">${esc(s.title2||'방송')}</div></div>`;
