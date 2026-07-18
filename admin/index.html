@@ -250,6 +250,9 @@
       .color-pick input { display:none; }
       .color-pick input:checked + span { box-shadow:0 0 0 2px #fff, 0 0 0 4px var(--main); }
       .color-pick span { width:30px; height:30px; border-radius:50%; display:inline-block; }
+      .color-pick label.cauto { width:auto; height:30px; }
+      .color-pick label.cauto span { width:auto; height:30px; line-height:26px; padding:0 12px; border-radius:20px; border:2px solid #ddd; font-size:12px; font-weight:800; color:#777; background:#fff; box-sizing:border-box; }
+      .color-pick label.cauto input:checked + span { border-color:var(--main); color:var(--main); background:var(--main-light); box-shadow:none; }
       .cdot-green{background:#3fae7e}.cdot-pink{background:#f48fb1}.cdot-yellow{background:#f5c542}.cdot-orange{background:#ee9a4d}.cdot-blue{background:#5a9fe0}.cdot-purple{background:#a07fd0}.cdot-red{background:#e36}.cdot-gray{background:#aaa}
     </style>
     <div class="card">
@@ -261,8 +264,10 @@
         </div>
         <div class="form-field full">
           <label class="input-label">색상</label>
+          <div class="hint" style="margin:0 0 6px"><b>자동</b>을 고르면 유형에 맞춰 칠해져요 — 방송=초록 / 합방=보라 / 휴방=분홍. 직접 고르고 싶을 때만 색을 누르세요.</div>
           <div class="color-pick">
-            <label><input type="radio" name="schcolor" value="green" checked><span class="cdot-green"></span></label>
+            <label class="cauto"><input type="radio" name="schcolor" value="auto" checked><span>자동</span></label>
+            <label><input type="radio" name="schcolor" value="green"><span class="cdot-green"></span></label>
             <label><input type="radio" name="schcolor" value="pink"><span class="cdot-pink"></span></label>
             <label><input type="radio" name="schcolor" value="yellow"><span class="cdot-yellow"></span></label>
             <label><input type="radio" name="schcolor" value="orange"><span class="cdot-orange"></span></label>
@@ -658,8 +663,9 @@
     const t = document.getElementById('sch-list');
     if (!data.length) { t.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#ccc;padding:20px">없음</td></tr>'; return; }
     t.innerHTML = data.map(s => {
-      const isOff = s.type === '휴방';
-      const badge = isOff ? '<span class="badge" style="background:#eceef1;color:#6b7280">휴방</span>' : '<span class="badge" style="background:#d6f0e4;color:#1f7a52">방송</span>';
+      const BST = { '휴방':'background:#fbe0e6;color:#9c3a58', '합방':'background:#e7defa;color:#5b3fa6', '방송':'background:#d6f0e4;color:#1f7a52' };
+      const ty = s.type || '방송';
+      const badge = `<span class="badge" style="${BST[ty]||BST['방송']}">${ty}</span>`;
       return `<tr><td>${s.date}</td><td>${s.time||'-'}</td><td>${badge}</td><td>${s.title||'-'}</td><td><button class="delete-btn" onclick="del('schedule',${s.id},loadSchedule)">🗑</button></td></tr>`;
     }).join('');
   }
@@ -668,8 +674,10 @@
     if (!date) { showToast('❗ 날짜 필수!'); return; }
     const type = document.getElementById('sch-type').value;
     let title = document.getElementById('sch-title').value.trim();
-    if (!title) title = (type === '휴방' ? '휴방' : '방송');
-    const color = (document.querySelector('input[name="schcolor"]:checked')||{}).value || 'green';
+    if (!title) title = type;
+    const AUTOC = { '휴방':'pink', '합방':'purple', '방송':'green' };
+    let color = (document.querySelector('input[name="schcolor"]:checked')||{}).value || 'auto';
+    if (color === 'auto') color = AUTOC[type] || 'green';
     const row = {
       title, date, type, color,
       time: document.getElementById('sch-time').value,

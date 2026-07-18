@@ -160,6 +160,8 @@
   function typeLabel(t){ const k = kind(t); return k==='off' ? '휴방' : (k==='col' ? '합방' : '방송'); }
   function defColor(t){ const k = kind(t); return k==='off' ? 'pink' : (k==='col' ? 'purple' : 'green'); }
   function colorClass(s){ return 'c-' + (s.color || defColor(s.type)); }
+  // 제목이 유형 단어로만 저장된 예전 데이터는 실제 유형 라벨로 바꿔 표시
+  function shownTitle(s){ const t=(s.title||'').trim(); return (!t || t==='방송' || t==='합방' || t==='휴방') ? typeLabel(s.type) : t; }
 
   async function init() {
     const now = new Date(); currentYear = now.getFullYear(); currentMonth = now.getMonth();
@@ -189,7 +191,7 @@
       const events = allSchedule.filter(s => s.date === dateStr);
       const hl = events.some(e=>e.highlight);
       let evHtml = events.map(e => {
-        const label = (e.time ? e.time+' ' : '') + (e.title || typeLabel(e.type));
+        const label = (e.time ? e.time+' ' : '') + shownTitle(e);
         return `<div class="ev ${colorClass(e)}" title="${esc(label)}">${esc(label)}</div>`;
       }).join('');
       const cls = `cal-cell${isToday?' today':''}${events.length?' has':''}${hl?' hl':''}`;
@@ -212,7 +214,7 @@
       const times = [s.time, s.time2].filter(Boolean).join(' · ');
       return `<div class="up-item ${colorClass(s)}" style="border-left-color:currentColor" onclick="openModal('${s.date}')">
         <div class="up-date"><div class="up-d1">${String(dd.getMonth()+1).padStart(2,'0')}-${String(dd.getDate()).padStart(2,'0')} (${DAYS[dd.getDay()]})</div></div>
-        <div class="up-info"><div class="up-title">${esc(s.title || label)}</div>${times?`<div class="up-time">${esc(times)}</div>`:''}</div>
+        <div class="up-info"><div class="up-title">${esc(shownTitle(s))}</div>${times?`<div class="up-time">${esc(times)}</div>`:''}</div>
         <span class="up-badge ${colorClass(s)}">${label}</span>
       </div>`;
     }).join('');
@@ -226,7 +228,7 @@
       const k = kind(s.type);
       html += `<div class="m-badge ${colorClass(s)}">${typeLabel(s.type)}</div>`;
       // 1부
-      html += `<div class="m-part"><div class="pt">${s.time?esc(s.time):'1부'}</div><div class="pn">${esc(s.title || typeLabel(s.type))}</div></div>`;
+      html += `<div class="m-part"><div class="pt">${s.time?esc(s.time):'1부'}</div><div class="pn">${esc(shownTitle(s))}</div></div>`;
       // 2부
       if (s.title2 || s.time2) {
         html += `<div class="m-part"><div class="pt">${s.time2?esc(s.time2):'2부'}</div><div class="pn">${esc(s.title2||'방송')}</div></div>`;
