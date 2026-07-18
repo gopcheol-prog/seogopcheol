@@ -95,7 +95,7 @@ body.dark .hero{background-image:
 .hero h1{font-family:'Gothic A1','Noto Sans KR',sans-serif;font-weight:900;font-size:72px;
   color:var(--logo);line-height:1;margin:0;letter-spacing:7px;margin-right:-7px;
   text-shadow:0 2px 0 rgba(255,252,248,.95),0 0 18px rgba(255,248,250,.95),2px 2px 8px rgba(255,240,244,.9)}
-body.dark .hero h1{text-shadow:0 2px 0 rgba(255,252,248,.95),0 0 18px rgba(255,248,250,.95),2px 2px 8px rgba(255,240,244,.9)}
+body.dark .hero h1{text-shadow:0 2px 8px rgba(0,0,0,.45)}   /* 다크: 네온 글로우 제거 */
 .hero .sub{text-shadow:0 1px 6px rgba(255,250,245,.9)}
 body.dark .hero .sub{text-shadow:0 1px 6px rgba(0,0,0,.6)}
 .hero .rib{display:inline-block;background:var(--main);color:#fff;font-family:'Jua';font-size:15px;
@@ -234,13 +234,16 @@ body.ready .wrap{opacity:1}
   .hero .backchar{display:none!important}
   .hero #avatarWrap,.hero .mid,.hero .heroslip{position:static!important;transform:none!important;
         left:auto!important;right:auto!important;top:auto!important;width:auto!important;max-width:100%!important}
-  .hero #avatarWrap{height:auto!important;display:grid;place-items:center}
+  .hero #avatarWrap{position:relative!important;height:auto!important;display:grid;place-items:center}
+  /* 점선 링: 프사 정중앙 고정 (transform은 회전 애니가 쓰므로 margin:auto로 센터링) */
+  .cb .ring{left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;
+            width:202px!important;height:202px!important;max-width:none!important;aspect-ratio:auto!important;
+            margin:-103px 0 0 -103px!important}
   .hero .mid{pointer-events:auto!important;margin:0!important}
   .hero .heroslip{min-width:0!important;width:100%!important;max-width:340px!important;transform:rotate(0deg)!important}
   .hero h1{font-size:40px;letter-spacing:3px;margin-right:-3px}
   .hero .sub{letter-spacing:4px}
   .hero .rib{font-size:14px;padding:6px 16px}
-  .cb .ring{width:100%;max-width:212px;aspect-ratio:1;height:auto}
   .avatar{width:170px;height:170px}
 
   /* 이번 주 일정: 7칸 유지 (4칸으로 접으면 요일이 어긋남) */
@@ -259,7 +262,7 @@ body.ready .wrap{opacity:1}
   .ask{padding:8px 13px;font-size:12.5px}
   .hero h1{font-size:34px;letter-spacing:2px;margin-right:-2px}
   .avatar{width:150px;height:150px}
-  .cb .ring{max-width:186px}
+  .cb .ring{width:180px!important;height:180px!important;margin:-92px 0 0 -92px!important}
   .day .dh{font-size:10.5px}
   .day .db{font-size:10px;min-height:50px}
   .lks{grid-template-columns:repeat(2,minmax(0,1fr))}

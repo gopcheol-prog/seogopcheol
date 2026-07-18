@@ -27,13 +27,15 @@
   box-shadow:0 0 0 3px var(--main), 0 14px 30px rgba(150,90,100,.26);
   background:var(--main-light);transition:transform .25s}
 .avwrap:hover .avatar{transform:scale(1.04)}
-.ring{position:absolute;width:214px;height:214px;border-radius:50%;border:2px dashed var(--main-dark);
+.ring{position:absolute;left:50%;top:50%;margin:-109px 0 0 -109px;
+  width:214px;height:214px;border-radius:50%;border:2px dashed var(--main-dark);
   opacity:.35;animation:spin2 22s linear infinite}
 @keyframes spin2{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.ring{animation:none}}
 .pheadcol{display:flex;flex-direction:column;align-items:flex-start;gap:9px}
 .phero h1{font-family:var(--katuri);font-weight:900;font-size:60px;letter-spacing:6px;
   color:var(--logo);line-height:1;margin:0;text-shadow:0 2px 0 rgba(255,252,248,.9),0 0 20px rgba(255,250,245,.85)}
+body.dark .phero h1{text-shadow:0 2px 8px rgba(0,0,0,.45)}   /* 다크: 네온 글로우 제거 */
 .rib{display:inline-block;background:var(--main);color:#fff;font-family:var(--jua);font-size:15px;
   padding:7px 22px;border-radius:999px;margin:0}
 .pheadcol .hbadges{margin-top:8px}
