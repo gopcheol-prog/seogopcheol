@@ -60,6 +60,14 @@
     body.dark .modal { background: var(--card); }
     body.dark .upbo-row { background: #22262e; }
     body.dark .upbo-row .ct { background: var(--card); }
+
+    /* 📱 모바일: 검색창이 잘리지 않게 줄바꿈 */
+    @media (max-width:560px){
+      .upbo-bar{flex-wrap:wrap;gap:8px}
+      .upbo-bar .search-box{flex:1 1 100%;padding:12px 15px;font-size:13.5px}
+      .upbo-update{font-size:11px;padding:5px 12px}
+      .upbo-title{font-size:22px}
+    }
   </style>
 </head>
 <body>

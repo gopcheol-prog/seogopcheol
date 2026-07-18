@@ -213,6 +213,66 @@ body.ready .wrap{opacity:1}
   .vodgrid{grid-template-columns:1fr}
   .rfoot{margin:18px -14px 0;padding:14px}
 }
+
+/* ═══════ 📱 모바일 보정 (반드시 스타일 맨 끝 — 위 절대배치 규칙을 덮어써야 함) ═══════ */
+@media(max-width:1050px){
+  /* nav: 로고+다크+문의 한 줄, 메뉴는 아래 가로스크롤 */
+  .nav{gap:10px;row-gap:8px;flex-wrap:wrap}
+  .nav-logo{font-size:22px;gap:7px;flex:0 1 auto;min-width:0}
+  .nav-logo .lg{width:32px;height:32px;border-radius:9px;flex:none}
+  .dk{margin-left:auto;flex:none}
+  .ask{order:2;flex:none;padding:9px 15px;font-size:13px}
+  .nm{order:3;width:100%;margin:0;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;
+      scrollbar-width:none;gap:0;padding-bottom:2px}
+  .nm::-webkit-scrollbar{display:none}
+  .nm a{white-space:nowrap;font-size:14px;padding:8px 11px;flex:none}
+  .nm a.act::after{left:11px;right:11px}
+
+  /* 히어로: 세로 스택 (겹침 해제) */
+  .hero{height:auto!important;padding:22px 16px!important;display:flex!important;flex-direction:column!important;
+        align-items:center!important;gap:14px!important}
+  .hero .backchar{display:none!important}
+  .hero #avatarWrap,.hero .mid,.hero .heroslip{position:static!important;transform:none!important;
+        left:auto!important;right:auto!important;top:auto!important;width:auto!important;max-width:100%!important}
+  .hero #avatarWrap{height:auto!important;display:grid;place-items:center}
+  .hero .mid{pointer-events:auto!important;margin:0!important}
+  .hero .heroslip{min-width:0!important;width:100%!important;max-width:340px!important;transform:rotate(0deg)!important}
+  .hero h1{font-size:40px;letter-spacing:3px;margin-right:-3px}
+  .hero .sub{letter-spacing:4px}
+  .hero .rib{font-size:14px;padding:6px 16px}
+  .cb .ring{width:100%;max-width:212px;aspect-ratio:1;height:auto}
+  .avatar{width:170px;height:170px}
+
+  /* 이번 주 일정: 7칸 유지 (4칸으로 접으면 요일이 어긋남) */
+  .days{grid-template-columns:repeat(7,minmax(0,1fr))}
+  .day{min-width:0}
+  .day .dh{font-size:11.5px;padding:5px 0}
+  .day .db{font-size:11px;padding:9px 1px;min-height:56px;word-break:keep-all}
+  .day .db small{font-size:9.5px}
+}
+@media(max-width:560px){
+  .nav-logo{font-size:20px}
+  .dk{font-size:0;gap:0}          /* '다크 모드' 글자 숨겨 한 줄 확보 */
+  .dk .sw{font-size:13px;width:40px;height:22px}
+  .dk .sw i{width:16px;height:16px}
+  body.dark .dk .sw i{left:21px}
+  .ask{padding:8px 13px;font-size:12.5px}
+  .hero h1{font-size:34px;letter-spacing:2px;margin-right:-2px}
+  .avatar{width:150px;height:150px}
+  .cb .ring{max-width:186px}
+  .day .dh{font-size:10.5px}
+  .day .db{font-size:10px;min-height:50px}
+  .lks{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mt span{font-size:12px;padding:6px 12px}
+  .ct{font-size:15px}
+}
+@media(max-width:400px){
+  .nav-logo{font-size:18px}
+  .nav-logo .lg{width:28px;height:28px}
+  .hero h1{font-size:29px;letter-spacing:1px;margin-right:0}
+  .day .dh{font-size:9.5px}
+  .day .db{font-size:9.5px;min-height:46px}
+}
 </style>
 </head>
 <body>

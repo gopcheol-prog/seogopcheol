@@ -123,6 +123,33 @@ body.dark .now{background:linear-gradient(135deg,#3E2E33,#2E2428)}
   .vodgrid{grid-template-columns:1fr}
   .lks{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* ═══════ 📱 모바일 보정 ═══════ */
+@media(max-width:1000px){
+  /* 일정 7칸 유지 (4칸으로 접으면 요일이 밀림) */
+  .days{grid-template-columns:repeat(7,minmax(0,1fr))}
+  .day .dh{font-size:11.5px;padding:5px 0}
+  .day .db{font-size:11px;padding:9px 1px;min-height:56px;word-break:keep-all}
+  .day .db small{font-size:9.5px}
+  .phero h1{font-size:38px}
+  .quote{font-size:15.5px;line-height:1.8}
+  .speech{font-size:13px;line-height:1.9}
+}
+@media(max-width:560px){
+  .phero h1{font-size:32px}
+  .day .dh{font-size:10.5px}
+  .day .db{font-size:10px;min-height:50px}
+  .lks{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lk{font-size:12px;padding:11px 6px}
+  .quote{font-size:14.5px}
+  .mile{font-size:12.5px}
+  .mile .d2{font-size:11px}
+}
+@media(max-width:400px){
+  .phero h1{font-size:27px}
+  .day .dh{font-size:9.5px}
+  .day .db{font-size:9.5px;min-height:46px}
+}
 </style>
 </head>
 <body>
