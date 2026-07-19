@@ -27,8 +27,8 @@
   box-shadow:0 0 0 3px var(--main), 0 14px 30px rgba(150,90,100,.26);
   background:var(--main-light);transition:transform .25s}
 .avwrap:hover .avatar{transform:scale(1.04)}
-.ring{position:absolute;left:50%;top:50%;margin:-109px 0 0 -109px;
-  width:214px;height:214px;border-radius:50%;border:2px dashed var(--main-dark);
+.ring{position:absolute;left:50%;top:50%;margin:-109px 0 0 -109px;box-sizing:border-box;width:218px;height:218px;
+  border-radius:50%;border:2px dashed var(--main-dark);
   opacity:.35;animation:spin2 22s linear infinite}
 @keyframes spin2{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.ring{animation:none}}
